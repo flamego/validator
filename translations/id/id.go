@@ -1332,11 +1332,11 @@ func RegisterDefaultTranslations(v *validator.Validate, trans ut.Translator) (er
 		}
 
 		if err != nil {
-			return
+			return err
 		}
 	}
 
-	return
+	return nil
 }
 
 func registrationFunc(tag string, translation string, override bool) validator.RegisterTranslationsFunc {
@@ -1344,10 +1344,10 @@ func registrationFunc(tag string, translation string, override bool) validator.R
 	return func(ut ut.Translator) (err error) {
 
 		if err = ut.Add(tag, translation, override); err != nil {
-			return
+			return err
 		}
 
-		return
+		return nil
 
 	}
 
