@@ -306,7 +306,7 @@ func (v *Validate) RegisterTranslation(tag string, trans ut.Translator, register
 
 	m[tag] = translationFn
 
-	return
+	return err
 }
 
 // Struct validates a structs exposed fields, and automatically validates nested structs, unless otherwise specified.
@@ -350,7 +350,7 @@ func (v *Validate) StructCtx(ctx context.Context, s interface{}) (err error) {
 
 	v.pool.Put(vd)
 
-	return
+	return err
 }
 
 // StructFiltered validates a structs exposed fields, that pass the FilterFunc check and automatically validates
@@ -396,7 +396,7 @@ func (v *Validate) StructFilteredCtx(ctx context.Context, s interface{}, fn Filt
 
 	v.pool.Put(vd)
 
-	return
+	return err
 }
 
 // StructPartial validates the fields passed in only, ignoring all others.
@@ -486,7 +486,7 @@ func (v *Validate) StructPartialCtx(ctx context.Context, s interface{}, fields .
 
 	v.pool.Put(vd)
 
-	return
+	return err
 }
 
 // StructExcept validates all fields except the ones passed in.
@@ -551,7 +551,7 @@ func (v *Validate) StructExceptCtx(ctx context.Context, s interface{}, fields ..
 
 	v.pool.Put(vd)
 
-	return
+	return err
 }
 
 // Var validates a single variable using tag style validation.
@@ -602,7 +602,7 @@ func (v *Validate) VarCtx(ctx context.Context, field interface{}, tag string) (e
 		vd.errs = nil
 	}
 	v.pool.Put(vd)
-	return
+	return err
 }
 
 // VarWithValue validates a single variable, against another variable/field's value using tag style validation
@@ -654,5 +654,5 @@ func (v *Validate) VarWithValueCtx(ctx context.Context, field interface{}, other
 		vd.errs = nil
 	}
 	v.pool.Put(vd)
-	return
+	return err
 }

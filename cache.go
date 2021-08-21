@@ -35,7 +35,7 @@ type structCache struct {
 
 func (sc *structCache) Get(key reflect.Type) (c *cStruct, found bool) {
 	c, found = sc.m.Load().(map[reflect.Type]*cStruct)[key]
-	return
+	return c, found
 }
 
 func (sc *structCache) Set(key reflect.Type, value *cStruct) {
@@ -55,7 +55,7 @@ type tagCache struct {
 
 func (tc *tagCache) Get(key string) (c *cTag, found bool) {
 	c, found = tc.m.Load().(map[string]*cTag)[key]
-	return
+	return c, found
 }
 
 func (tc *tagCache) Set(key string, value *cTag) {
@@ -241,7 +241,7 @@ func (v *Validate) parseFieldTagsRecursive(tag string, fieldName string, alias s
 			if i != len(tags)-1 {
 				panic(keysTagNotDefined)
 			}
-			return
+			return firstCtag, current
 
 		case omitempty:
 			current.typeof = typeOmitEmpty
@@ -300,7 +300,7 @@ func (v *Validate) parseFieldTagsRecursive(tag string, fieldName string, alias s
 			current.isBlockEnd = true
 		}
 	}
-	return
+	return firstCtag, current
 }
 
 func (v *Validate) fetchCacheTag(tag string) *cTag {
