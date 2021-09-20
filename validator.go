@@ -268,6 +268,10 @@ OUTER:
 			switch kind {
 			case reflect.Slice, reflect.Array:
 
+				if cf.name == "" {
+					cf.name = typ.Elem().Name()
+				}
+
 				var i64 int64
 				reusableCF := &cField{}
 
