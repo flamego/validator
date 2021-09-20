@@ -8,8 +8,6 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	ut "github.com/go-playground/universal-translator"
 )
 
 const (
@@ -83,7 +81,6 @@ type Validate struct {
 	customFuncs      map[reflect.Type]CustomTypeFunc
 	aliases          map[string]string
 	validations      map[string]internalValidationFuncWrapper
-	transTagFunc     map[ut.Translator]map[string]TranslationFunc // map[<locale>]map[<tag>]TranslationFunc
 	tagCache         *tagCache
 	structCache      *structCache
 }
@@ -94,7 +91,6 @@ type Validate struct {
 // in essence only parsing your validation tags once per struct type.
 // Using multiple instances neglects the benefit of caching.
 func New() *Validate {
-
 	tc := new(tagCache)
 	tc.m.Store(make(map[string]*cTag))
 
@@ -285,28 +281,6 @@ func (v *Validate) RegisterCustomTypeFunc(fn CustomTypeFunc, types ...interface{
 	}
 
 	v.hasCustomFuncs = true
-}
-
-// RegisterTranslation registers translations against the provided tag.
-func (v *Validate) RegisterTranslation(tag string, trans ut.Translator, registerFn RegisterTranslationsFunc, translationFn TranslationFunc) (err error) {
-
-	if v.transTagFunc == nil {
-		v.transTagFunc = make(map[ut.Translator]map[string]TranslationFunc)
-	}
-
-	if err = registerFn(trans); err != nil {
-		return
-	}
-
-	m, ok := v.transTagFunc[trans]
-	if !ok {
-		m = make(map[string]TranslationFunc)
-		v.transTagFunc[trans] = m
-	}
-
-	m[tag] = translationFn
-
-	return err
 }
 
 // Struct validates a structs exposed fields, and automatically validates nested structs, unless otherwise specified.
