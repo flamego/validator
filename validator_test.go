@@ -411,6 +411,25 @@ func TestNameNamespace(t *testing.T) {
 	Equal(t, fe.StructField(), "String[1]")
 	Equal(t, fe.Namespace(), "Namespace.Inner1JSON.Inner2JSON.JSONString[1]")
 	Equal(t, fe.StructNamespace(), "Namespace.Inner1.Inner2.String[1]")
+
+	type SliceNamespace struct {
+		String string `validate:"required"`
+	}
+
+	sn := []SliceNamespace{{String: "a"}, {String: ""}}
+	errs = validate.Var(sn, "dive")
+	NotEqual(t, errs, nil)
+
+	ve = errs.(ValidationErrors)
+	Equal(t, len(ve), 1)
+	AssertError(t, errs, "SliceNamespace[1].String", "SliceNamespace[1].String", "String", "String", "required")
+
+	fe = getError(ve, "SliceNamespace[1].String", "SliceNamespace[1].String")
+	NotEqual(t, fe, nil)
+	Equal(t, fe.Field(), "String")
+	Equal(t, fe.StructField(), "String")
+	Equal(t, fe.Namespace(), "SliceNamespace[1].String")
+	Equal(t, fe.StructNamespace(), "SliceNamespace[1].String")
 }
 
 func TestAnonymous(t *testing.T) {
