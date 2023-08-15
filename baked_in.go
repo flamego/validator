@@ -1467,7 +1467,7 @@ func hasValue(fl FieldLevel) bool {
 }
 
 // requireCheckField is a func for check field kind
-func requireCheckFieldKind(fl FieldLevel, param string, defaultNotFoundValue bool) bool {
+func requireCheckFieldKind(fl FieldLevel, param string, defaultNotFoundValue bool) bool { //nolint:unparam
 	field := fl.Field()
 	kind := field.Kind()
 	var nullable, found bool
