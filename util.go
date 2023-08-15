@@ -63,29 +63,24 @@ func (v *validate) getStructFieldOKInternal(val reflect.Value, namespace string)
 BEGIN:
 	current, kind, nullable = v.ExtractType(val)
 	if kind == reflect.Invalid {
-		return
+		return current, kind, nullable, false
 	}
 
 	if namespace == "" {
-		found = true
-		return
+		return current, kind, nullable, true
 	}
 
 	switch kind {
-
 	case reflect.Ptr, reflect.Interface:
-		return
+		return current, kind, nullable, false
 
 	case reflect.Struct:
-
 		typ := current.Type()
 		fld := namespace
 		var ns string
 
 		if typ != timeType {
-
 			idx := strings.Index(namespace, namespaceSeparator)
-
 			if idx != -1 {
 				fld = namespace[:idx]
 				ns = namespace[idx+1:]
@@ -96,7 +91,6 @@ BEGIN:
 			bracketIdx := strings.Index(fld, leftBracket)
 			if bracketIdx != -1 {
 				fld = fld[:bracketIdx]
-
 				ns = namespace[bracketIdx:]
 			}
 
@@ -110,9 +104,8 @@ BEGIN:
 		idx2 := strings.Index(namespace, rightBracket)
 
 		arrIdx, _ := strconv.Atoi(namespace[idx+1 : idx2])
-
 		if arrIdx >= current.Len() {
-			return
+			return current, kind, nullable, false
 		}
 
 		startIdx := idx2 + 1
@@ -130,9 +123,7 @@ BEGIN:
 	case reflect.Map:
 		idx := strings.Index(namespace, leftBracket) + 1
 		idx2 := strings.Index(namespace, rightBracket)
-
 		endIdx := idx2
-
 		if endIdx+1 < len(namespace) {
 			if namespace[endIdx+1:endIdx+2] == namespaceSeparator {
 				endIdx++
@@ -140,7 +131,6 @@ BEGIN:
 		}
 
 		key := namespace[idx:idx2]
-
 		switch current.Type().Key().Kind() {
 		case reflect.Int:
 			i, _ := strconv.Atoi(key)
