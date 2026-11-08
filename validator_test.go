@@ -2168,13 +2168,13 @@ func TestCrossNamespaceFieldValidation(t *testing.T) {
 
 	current, kind, _, ok = v.getStructFieldOKInternal(val, "Inner.SliceStructs[2]")
 	Equal(t, ok, true)
-	Equal(t, kind, reflect.Ptr)
+	Equal(t, kind, reflect.Pointer)
 	Equal(t, current.String(), "<*validator.SliceStruct Value>")
 	Equal(t, current.IsNil(), true)
 
 	current, kind, _, ok = v.getStructFieldOKInternal(val, "Inner.SliceStructs[2].Name")
 	Equal(t, ok, false)
-	Equal(t, kind, reflect.Ptr)
+	Equal(t, kind, reflect.Pointer)
 	Equal(t, current.String(), "<*validator.SliceStruct Value>")
 	Equal(t, current.IsNil(), true)
 
@@ -3068,7 +3068,7 @@ func TestBadKeyValidation(t *testing.T) {
 
 func TestInterfaceErrValidation(t *testing.T) {
 	var v2 interface{} = 1
-	var v1 interface{} = v2
+	v1 := v2
 
 	validate := New()
 	errs := validate.Var(v1, "len=1")
@@ -10520,7 +10520,7 @@ func TestAbilityToValidateNils(t *testing.T) {
 	ts := TestStruct{}
 	val := New()
 	fn := func(fl FieldLevel) bool {
-		return fl.Field().Kind() == reflect.Ptr && fl.Field().IsNil()
+		return fl.Field().Kind() == reflect.Pointer && fl.Field().IsNil()
 	}
 
 	err := val.RegisterValidation("nil", fn, true)
