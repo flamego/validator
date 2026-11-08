@@ -212,7 +212,7 @@ func parseOneOfParam2(s string) []string {
 		oneofValsCacheRWLock.Lock()
 		vals = splitParamsRegex.FindAllString(s, -1)
 		for i := 0; i < len(vals); i++ {
-			vals[i] = strings.Replace(vals[i], "'", "", -1)
+			vals[i] = strings.ReplaceAll(vals[i], "'", "")
 		}
 		oneofValsCache[s] = vals
 		oneofValsCacheRWLock.Unlock()
@@ -266,7 +266,7 @@ func isUnique(fl FieldLevel) bool {
 	switch field.Kind() {
 	case reflect.Slice, reflect.Array:
 		elem := field.Type().Elem()
-		if elem.Kind() == reflect.Ptr {
+		if elem.Kind() == reflect.Pointer {
 			elem = elem.Elem()
 		}
 
@@ -285,7 +285,7 @@ func isUnique(fl FieldLevel) bool {
 		}
 
 		sfTyp := sf.Type
-		if sfTyp.Kind() == reflect.Ptr {
+		if sfTyp.Kind() == reflect.Pointer {
 			sfTyp = sfTyp.Elem()
 		}
 
@@ -1456,7 +1456,7 @@ func isDefault(fl FieldLevel) bool {
 func hasValue(fl FieldLevel) bool {
 	field := fl.Field()
 	switch field.Kind() {
-	case reflect.Slice, reflect.Map, reflect.Ptr, reflect.Interface, reflect.Chan, reflect.Func:
+	case reflect.Slice, reflect.Map, reflect.Pointer, reflect.Interface, reflect.Chan, reflect.Func:
 		return !field.IsNil()
 	default:
 		if fl.(*validate).fldIsPointer && field.Interface() != nil {
@@ -1480,7 +1480,7 @@ func requireCheckFieldKind(fl FieldLevel, param string, defaultNotFoundValue boo
 	switch kind {
 	case reflect.Invalid:
 		return defaultNotFoundValue
-	case reflect.Slice, reflect.Map, reflect.Ptr, reflect.Interface, reflect.Chan, reflect.Func:
+	case reflect.Slice, reflect.Map, reflect.Pointer, reflect.Interface, reflect.Chan, reflect.Func:
 		return field.IsNil()
 	default:
 		if nullable && field.Interface() != nil {
@@ -2336,13 +2336,13 @@ func isTimeZone(fl FieldLevel) bool {
 // isIso3166Alpha2 is the validation function for validating if the current field's value is a valid iso3166-1 alpha-2 country code.
 func isIso3166Alpha2(fl FieldLevel) bool {
 	val := fl.Field().String()
-	return iso3166_1_alpha2[val]
+	return iso3166_1Alpha2[val]
 }
 
 // isIso3166Alpha2 is the validation function for validating if the current field's value is a valid iso3166-1 alpha-3 country code.
 func isIso3166Alpha3(fl FieldLevel) bool {
 	val := fl.Field().String()
-	return iso3166_1_alpha3[val]
+	return iso3166_1Alpha3[val]
 }
 
 // isIso3166Alpha2 is the validation function for validating if the current field's value is a valid iso3166-1 alpha-numeric country code.
@@ -2358,7 +2358,7 @@ func isIso3166AlphaNumeric(fl FieldLevel) bool {
 	default:
 		panic(fmt.Sprintf("Bad field type %T", field.Interface()))
 	}
-	return iso3166_1_alpha_numeric[code]
+	return iso3166_1AlphaNumeric[code]
 }
 
 // isIso31662 is the validation function for validating if the current field's value is a valid iso3166-2 code.
@@ -2386,7 +2386,7 @@ func isIso4217Numeric(fl FieldLevel) bool {
 	default:
 		panic(fmt.Sprintf("Bad field type %T", field.Interface()))
 	}
-	return iso4217_numeric[code]
+	return iso4217Numeric[code]
 }
 
 // isBCP47LanguageTag is the validation function for validating if the current field's value is a valid BCP 47 language tag, as parsed by language.Parse

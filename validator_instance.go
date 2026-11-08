@@ -259,7 +259,7 @@ func (v *Validate) RegisterStructValidationCtx(fn StructLevelFuncCtx, types ...i
 
 	for _, t := range types {
 		tv := reflect.ValueOf(t)
-		if tv.Kind() == reflect.Ptr {
+		if tv.Kind() == reflect.Pointer {
 			t = reflect.Indirect(tv).Interface()
 		}
 
@@ -301,7 +301,7 @@ func (v *Validate) StructCtx(ctx context.Context, s interface{}) (err error) {
 	val := reflect.ValueOf(s)
 	top := val
 
-	if val.Kind() == reflect.Ptr && !val.IsNil() {
+	if val.Kind() == reflect.Pointer && !val.IsNil() {
 		val = val.Elem()
 	}
 
@@ -346,7 +346,7 @@ func (v *Validate) StructFilteredCtx(ctx context.Context, s interface{}, fn Filt
 	val := reflect.ValueOf(s)
 	top := val
 
-	if val.Kind() == reflect.Ptr && !val.IsNil() {
+	if val.Kind() == reflect.Pointer && !val.IsNil() {
 		val = val.Elem()
 	}
 
@@ -394,7 +394,7 @@ func (v *Validate) StructPartialCtx(ctx context.Context, s interface{}, fields .
 	val := reflect.ValueOf(s)
 	top := val
 
-	if val.Kind() == reflect.Ptr && !val.IsNil() {
+	if val.Kind() == reflect.Pointer && !val.IsNil() {
 		val = val.Elem()
 	}
 
@@ -484,7 +484,7 @@ func (v *Validate) StructExceptCtx(ctx context.Context, s interface{}, fields ..
 	val := reflect.ValueOf(s)
 	top := val
 
-	if val.Kind() == reflect.Ptr && !val.IsNil() {
+	if val.Kind() == reflect.Pointer && !val.IsNil() {
 		val = val.Elem()
 	}
 

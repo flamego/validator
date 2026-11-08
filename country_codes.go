@@ -1,6 +1,6 @@
 package validator
 
-var iso3166_1_alpha2 = map[string]bool{
+var iso3166_1Alpha2 = map[string]bool{
 	// see: https://www.iso.org/iso-3166-country-codes.html
 	"AF": true, "AX": true, "AL": true, "DZ": true, "AS": true,
 	"AD": true, "AO": true, "AI": true, "AQ": true, "AG": true,
@@ -54,7 +54,7 @@ var iso3166_1_alpha2 = map[string]bool{
 	"EH": true, "YE": true, "ZM": true, "ZW": true,
 }
 
-var iso3166_1_alpha3 = map[string]bool{
+var iso3166_1Alpha3 = map[string]bool{
 	// see: https://www.iso.org/iso-3166-country-codes.html
 	"AFG": true, "ALB": true, "DZA": true, "ASM": true, "AND": true,
 	"AGO": true, "AIA": true, "ATA": true, "ATG": true, "ARG": true,
@@ -107,7 +107,7 @@ var iso3166_1_alpha3 = map[string]bool{
 	"VNM": true, "VGB": true, "VIR": true, "WLF": true, "ESH": true,
 	"YEM": true, "ZMB": true, "ZWE": true, "ALA": true,
 }
-var iso3166_1_alpha_numeric = map[int]bool{
+var iso3166_1AlphaNumeric = map[int]bool{
 	// see: https://www.iso.org/iso-3166-country-codes.html
 	4: true, 8: true, 12: true, 16: true, 20: true,
 	24: true, 660: true, 10: true, 28: true, 32: true,
