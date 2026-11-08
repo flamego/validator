@@ -2336,13 +2336,13 @@ func isTimeZone(fl FieldLevel) bool {
 // isIso3166Alpha2 is the validation function for validating if the current field's value is a valid iso3166-1 alpha-2 country code.
 func isIso3166Alpha2(fl FieldLevel) bool {
 	val := fl.Field().String()
-	return iso3166_1_alpha2[val]
+	return iso3166_1Alpha2[val]
 }
 
 // isIso3166Alpha2 is the validation function for validating if the current field's value is a valid iso3166-1 alpha-3 country code.
 func isIso3166Alpha3(fl FieldLevel) bool {
 	val := fl.Field().String()
-	return iso3166_1_alpha3[val]
+	return iso3166_1Alpha3[val]
 }
 
 // isIso3166Alpha2 is the validation function for validating if the current field's value is a valid iso3166-1 alpha-numeric country code.
@@ -2358,7 +2358,7 @@ func isIso3166AlphaNumeric(fl FieldLevel) bool {
 	default:
 		panic(fmt.Sprintf("Bad field type %T", field.Interface()))
 	}
-	return iso3166_1_alpha_numeric[code]
+	return iso3166_1AlphaNumeric[code]
 }
 
 // isIso31662 is the validation function for validating if the current field's value is a valid iso3166-2 code.
@@ -2386,7 +2386,7 @@ func isIso4217Numeric(fl FieldLevel) bool {
 	default:
 		panic(fmt.Sprintf("Bad field type %T", field.Interface()))
 	}
-	return iso4217_numeric[code]
+	return iso4217Numeric[code]
 }
 
 // isBCP47LanguageTag is the validation function for validating if the current field's value is a valid BCP 47 language tag, as parsed by language.Parse

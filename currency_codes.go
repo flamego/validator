@@ -39,7 +39,7 @@ var iso4217 = map[string]bool{
 	"XAU": true, "XPD": true, "XPT": true, "XAG": true,
 }
 
-var iso4217_numeric = map[int]bool{
+var iso4217Numeric = map[int]bool{
 	8: true, 12: true, 32: true, 36: true, 44: true,
 	48: true, 50: true, 51: true, 52: true, 60: true,
 	64: true, 68: true, 72: true, 84: true, 90: true,
